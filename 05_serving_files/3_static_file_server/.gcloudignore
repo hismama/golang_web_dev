@@ -1,0 +1,17 @@
+# Exclude Git directory
+.git/
+
+# Exclude editor swap files
+*.swp
+*~
+
+# Exclude binaries and object files
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.o
+
+# Exclude logs
+*.log

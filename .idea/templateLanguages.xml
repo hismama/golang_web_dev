@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="TemplateDataLanguageMappings">
+    <file url="file://$PROJECT_DIR$/01_templates/005_variable/tpl.gohtml" dialect="HTML" />
+    <file url="file://$PROJECT_DIR$/08_cookies/1_signup/templates/signup.gohtml" dialect="HTML" />
+  </component>
+</project>

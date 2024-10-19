@@ -1,0 +1,9 @@
+runtime: go122
+
+handlers:
+  - url: /resources/(.*)
+    static_files: assets/\1
+    upload: assets/(.*)
+  - url: /.*
+    script: auto
+    secure: always

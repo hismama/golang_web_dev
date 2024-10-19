@@ -1,0 +1,20 @@
+<!doctype html>
+<html lan="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starting</title>
+
+</head>
+<body>
+{{if .FirstName}}
+    USER NAME {{.UserName}}<br>
+    PASSWORD {{.Password}}<br>
+    FIRST {{.FirstName}}<br>
+    LAST {{.LastName}}<br>
+{{else}}
+<h2><a href="/signup">Sign up </a>for access to the <a href="/bar">bar!</a><br><br>OR<br><a href="/login">Login</a> </h2>
+{{end}}
+<br>
+<h2>Go to <a href="/bar">bar!</a></h2>
+</body>
+</html>

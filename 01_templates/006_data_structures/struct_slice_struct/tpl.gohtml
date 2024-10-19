@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Peeps</title>
+</head>
+<body>
+{{/*Extract Wisdom from Struct*/}}
+<ul>
+    {{range .Wisdom}}
+        <li>{{.Name}} - {{.Motto}}</li>
+    {{end}}
+</ul>
+{{/*Extract Transport from Struct*/}}
+<ul>
+    {{range .Transport}}
+        <li>{{.Manufacturer}} {{.Model}} has {{.Doors}} doors!</li>
+    {{end}}
+</ul>
+</body>
+</html>

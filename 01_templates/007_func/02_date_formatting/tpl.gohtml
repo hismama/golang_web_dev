@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>functions - time_format</title>
+</head>
+<body>
+ Without date formatting: {{.}}
+
+With date formatting: {{fdateMDY .}}
+
+{{/*You can pipeline to pass variables on to the next function*/}}
+{{/*{{. | func1 | func2 | func3 ...}}*/}}
+
+</body>
+</html>

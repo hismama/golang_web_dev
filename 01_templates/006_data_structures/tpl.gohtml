@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Peeps</title>
+</head>
+<body>
+{{/*Extract from a Range*/}}
+<ul>
+    {{range .}}
+        <li>{{.}}</li>
+    {{end}}
+</ul>
+{{/*Extract as Variables*/}}
+<ul>
+    {{range $index, $element := .}}
+        <li>{{$index}} - {{$element}}</li>
+    {{end}}
+</ul>
+</body>
+</html>
