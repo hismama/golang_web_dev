@@ -30,7 +30,7 @@ const sessionLength = time.Second * 30
 const cookieLength int = 30
 
 func init() {
-	tpl = template.Must(template.ParseGlob("./08_cookies/1_signup/templates/*"))
+	tpl = template.Must(template.ParseGlob("./templates/*"))
 }
 
 func main() {
@@ -40,7 +40,7 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":80", nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
