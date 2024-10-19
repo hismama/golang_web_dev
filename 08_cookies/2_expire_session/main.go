@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
+	"time"
 )
 
 type user struct {
@@ -16,9 +16,18 @@ type user struct {
 	Role      string
 }
 
+type session struct {
+	un           string
+	lastActivity time.Time
+}
+
 var tpl *template.Template
-var dbUsers = map[string]user{}
-var dbSessions = map[string]string{}
+var dbUsers = map[string]user{}       // user ID, user
+var dbSessions = map[string]session{} // session ID, session
+var dbSessionsCleaned time.Time
+
+const sessionLength = time.Second * 30
+const cookieLength int = 30
 
 func init() {
 	tpl = template.Must(template.ParseGlob("./08_cookies/1_signup/templates/*"))
@@ -76,8 +85,7 @@ func signup(w http.ResponseWriter, r *http.Request) {
 			Value: sID.String(),
 		}
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = un
-		fmt.Printf("dbSessions: %s", dbSessions[c.Value])
+		dbSessions[c.Value] = session{un, time.Now()}
 
 		//	Store in dbUsers
 		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)
@@ -119,7 +127,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 			Value: sID.String(),
 		}
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = un
+		dbSessions[c.Value] = session{un, time.Now()}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
@@ -127,12 +135,15 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func logout(w http.ResponseWriter, r *http.Request) {
+	if time.Now().Sub(dbSessionsCleaned) > (sessionLength) {
+		go cleanSessions()
+	}
+
 	if !alreadyLoggedIn(r) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 	c, _ := r.Cookie("session")
-	fmt.Printf("dbSessions: %s", dbSessions[c.Value])
 	delete(dbSessions, c.Value)
 	c = &http.Cookie{
 		Name:   "session",
@@ -140,6 +151,7 @@ func logout(w http.ResponseWriter, r *http.Request) {
 		MaxAge: -1,
 	}
 	http.SetCookie(w, c)
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 	return
 }
